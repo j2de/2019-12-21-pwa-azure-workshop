@@ -1,6 +1,7 @@
 const path = require('path');
-const htmlWebpackPlugin = require('html-webpack-plugin');
-const webpackPwaManifest = require('webpack-pwa-manifest');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
+const { GenerateSW } = require('workbox-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -20,10 +21,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new htmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
-    new webpackPwaManifest({
+    new WebpackPwaManifest({
       name: 'react memo app',
       short_name: 'memo',
       description: '리액트로 제작한 메모앱',
@@ -36,6 +37,9 @@ module.exports = {
           sizes: [96, 128, 192, 256, 384, 512]
         }
       ]
+    }),
+    new GenerateSW({
+      include: [/\.html$/, /\.js$/]
     })
   ]
 };
